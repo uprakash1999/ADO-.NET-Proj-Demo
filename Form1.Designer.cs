@@ -61,6 +61,7 @@
             button3.TabIndex = 0;
             button3.Text = "Search";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // Form1
             // 

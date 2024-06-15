@@ -8,7 +8,7 @@ namespace MyProj
         {
             InitializeComponent();
         }
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -18,6 +18,11 @@ namespace MyProj
         private void button2_Click(object sender, EventArgs e)
         {
             new Form3().ShowDialog();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            new Form4().ShowDialog();
         }
     }
 }

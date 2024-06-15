@@ -65,6 +65,7 @@
             button2.TabIndex = 1;
             button2.Text = "Print";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // label1
             // 
@@ -154,12 +155,12 @@
             dataGridView1.Location = new Point(494, 86);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(624, 188);
+            dataGridView1.Size = new Size(871, 244);
             dataGridView1.TabIndex = 5;
             // 
             // richTextBox1
             // 
-            richTextBox1.Location = new Point(972, 274);
+            richTextBox1.Location = new Point(1219, 336);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.Size = new Size(146, 35);
             richTextBox1.TabIndex = 6;
@@ -169,7 +170,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(893, 289);
+            label6.Location = new Point(1140, 339);
             label6.Name = "label6";
             label6.Size = new Size(42, 20);
             label6.TabIndex = 2;
@@ -189,7 +190,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1168, 450);
+            ClientSize = new Size(1403, 450);
             Controls.Add(button3);
             Controls.Add(richTextBox1);
             Controls.Add(dataGridView1);

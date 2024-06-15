@@ -19,8 +19,12 @@ namespace MyProj
             InitializeComponent();
         }
 
+        //Total Bill Amount
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
+            string q = "SELECT Amount FROM billing";
+            SqlCommand cmd = new SqlCommand();
+            con.Open();
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -103,39 +107,62 @@ namespace MyProj
             con.Close();
 
         }
-        
+
         private void DisplayBillingData()
         {
-            string q = "SELECT b.BillNo, b.BillDate, n.foodName, b.Price, b.Quantity, b.Amount FROM billing b INNER JOIN new_entry n ON b.foodId = foodId";
+            string q = "SELECT b.BillNo, b.BillDate, n.foodName, b.Price, b.Quantity, b.Amount FROM billing b INNER JOIN new_entry n ON b.foodId = n.foodId";
             SqlCommand cmd = new SqlCommand(q, con);
             DataTable dt = new DataTable();
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             sda.Fill(dt);
             dataGridView1.DataSource = dt;
+
+            decimal totalAmount = 0;
+            foreach (DataRow rd in dt.Rows) {
+                totalAmount += (decimal)rd["Amount"];
+            }
+            richTextBox1.Text = totalAmount.ToString();
         }
         //Billing Add Button
         private void button1_Click(object sender, EventArgs e)
         {
-            int billno = int.Parse(textBox1.Text);
-            string selectedFood = comboBox1.SelectedItem.ToString();
-            decimal foodPrice = decimal.Parse(textBox2.Text);
-            int quantity = int.Parse(textBox3.Text);
-            decimal amount = decimal.Parse(textBox4.Text);
+            try
+            {
+                if (comboBox1.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a food item");
+                    return;
+                }
 
-            string q = "SELECT foodId FROM new_entry WHERE foodName = '{selectedFood}'";
-            con.Open();
-            SqlCommand cmd = new SqlCommand(q, con);
-            int foodId = (int)cmd.ExecuteScalar();
-            con.Close();
+                int billno = int.Parse(textBox1.Text);
+                string selectedFood = comboBox1.SelectedItem.ToString();
+                decimal foodPrice = decimal.Parse(textBox2.Text);
+                int quantity = int.Parse(textBox3.Text);
 
-            string q1 = $"INSERT INTO billing  (BillNo, foodId, Price, Quantity, Amount) VALUES({billno}, {foodId}, {foodPrice}, {quantity}, {amount})";
-            SqlCommand cmd1 = new SqlCommand(q1, con);
+                string q = $"SELECT foodId FROM new_entry WHERE foodName = '{selectedFood}'";
+                con.Open();
+                SqlCommand cmd = new SqlCommand(q, con);
+                int foodId = (int)cmd.ExecuteScalar();
+                con.Close();
 
-            con.Open();
-            cmd1.ExecuteNonQuery();
-            con.Close();
+                string q1 = $"INSERT INTO billing  (BillNo, foodId, Price, Quantity) VALUES({billno}, {foodId}, {foodPrice}, {quantity})";
+                SqlCommand cmd1 = new SqlCommand(q1, con);
 
-            DisplayBillingData();
+                con.Open();
+                cmd1.ExecuteNonQuery();
+                con.Close();
+
+                DisplayBillingData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occured: " + ex.Message);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
