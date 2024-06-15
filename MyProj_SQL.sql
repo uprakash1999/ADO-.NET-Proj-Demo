@@ -1,0 +1,23 @@
+CREATE DATABASE HOTEL_DB;
+USE HOTEL_DB;
+
+CREATE TABLE new_entry(
+foodId INT IDENTITY(1, 1) PRIMARY KEY,
+foodName VARCHAR(20) UNIQUE,
+foodType VARCHAR(10) NOT NULL CHECK (foodType IN ('Veg', 'Non Veg')),
+foodPrice DECIMAL CHECK (foodPrice > 0),
+foodAvail VARCHAR(10) NOT NULL,
+);
+
+
+CREATE TABLE billing(
+BillNo INT NOT NULL DEFAULT (CAST((RAND() * (9999-1000+1)+1000) AS INT)),
+BillDate DATETIME DEFAULT(GETDATE()),
+foodId INT FOREIGN KEY REFERENCES new_entry(foodId),
+Price DECIMAL CHECK(Price > 0),
+Quantity INT DEFAULT 1,
+Amount AS (Price * Quantity) PERSISTED
+);
+
+SELECT *FROM new_entry;
+SELECT *FROM billing;
